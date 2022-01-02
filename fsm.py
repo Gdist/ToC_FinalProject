@@ -5,6 +5,7 @@ from utils import send_text_message, send_image_url, send_flex_message, uploadSM
 from utils import *
 import template
 import vote, choropleth
+import copy
 
 voteData = vote.readDataFromJson()
 
@@ -58,7 +59,7 @@ class TocMachine(GraphMachine):
 
     def is_going_to_selectItem(self, event):
         text = event.message.text
-        if text in ["收入", "年齡"]:
+        if text in ["中位數", "平均數"]:
             return True
         return False
 
@@ -87,18 +88,46 @@ class TocMachine(GraphMachine):
     def on_enter_voteStatsRegion(self, event):
         print("I'm entering voteStatsRegion")
         reply_token = event.reply_token
+        text = event.message.text
+        text = text.replace("總計", "合計")
 
-        city, dept, li = event.message.text.split("-")
-
-        text = ""
+        for sep in "-,_ ":
+            splits = text.split(sep)
+            if len(splits)==3:
+                city, dept, li = splits
+                region = f"{city}{dept}{li}"
+                if city in voteData[17] and dept in voteData[17][city] and li in voteData[17][city][dept]:
+                    break
+            elif len(splits)==2:
+                city, dept, li = splits + ['合計']
+                region = f"{city}{dept}"
+                if city in voteData[17] and dept in voteData[17][city]:
+                    break
+            else: 
+                if text in voteData[17]:
+                    region = text
+                    city, dept, li = text, '合計', '合計'
+                    break
+        message = copy.deepcopy(template.text)
+        message['header']['contents'][0]['text'] = f"{region}投票數據"
         for themeId in range(17, 21):
             votes = voteData[themeId][city][dept][li]
-            text += f"第{themeId}案：\n"
-            text += f"有效票數：{votes['valid_ticket']}\n"
-            text += f"同意票數：{votes['agree_ticket']}\n"
-            text += f"投票率：{votes['agree_ticket']}\n"
-            text += f"同意率：{votes['agree_to_votable']}\n"
-        send_text_message(reply_token, text)
+
+            cur_subtitle = copy.deepcopy(template.text_subtitle)
+            cur_subtitle['text'] = f"第{themeId}案"
+            message['body']['contents'].append(cur_subtitle)
+
+            cur_text = copy.deepcopy(template.text_text)
+            cur_text['text'] = f"有效票數：{votes['valid_ticket']}\n"
+            cur_text['text'] += f"同意票數：{votes['agree_ticket']}\n"
+            cur_text['text'] += f"投票率：{votes['vote_to_votable']}%\n"
+            agree_rate = round(100 * votes['agree_ticket']/votes['valid_ticket'], 2)
+            cur_text['text'] += f"同意率：{agree_rate}%"
+            message['body']['contents'].append(cur_text)
+        text1 = {"type": "text", "text": "\n若要查詢其他地區，請直接繼續輸入\n若要返回主目錄，請點擊返回鍵", "wrap": True}
+        message['body']['contents'].append(text1)
+
+        send_flex_message(event.reply_token, "顯示投票數據", message)
 
         # 繼續輸入或輸入「返回」返回目錄（要多做按鈕）
 
@@ -113,6 +142,7 @@ class TocMachine(GraphMachine):
         text = event.message.text
         city = 'Taiwan' if text in ["全國", "臺灣", "台灣"] else text
 
+        message = copy.deepcopy(template.carousel)
         imgLinks = []
         for themeId in ['All'] + list(range(17,21)):
             localpath = f'./output/map/{city}_{themeId}.png'
@@ -120,40 +150,50 @@ class TocMachine(GraphMachine):
                 choropleth.plotCity(themeId=themeId, cityName=city)
             imgLink = uploadSMMS(localpath)
             imgLinks.append(imgLink)
-            break
-        print(imgLinks[0])
-        send_image_url(event.reply_token, imgLinks[0])
-    
-        # 繼續輸入或輸入「返回」返回目錄（要多做按鈕）
-        # 改成輪播
+            cur_image_map = copy.deepcopy(template.image_map)
+            title = f"{text}第{themeId}案同意率" if isinstance(themeId, int) else f"{text}四案同意率"
+            cur_image_map['header']['contents'][0]['text'] = title
+            cur_image_map['hero']['url'] = imgLink
+            cur_image_map['footer']['contents'][0]['action']['uri'] = imgLink
+            message['contents'].append(cur_image_map)
+        #print(message)
+        #send_image_url(event.reply_token, imgLinks[0])
+        send_flex_message(event.reply_token, "顯示分層設色圖", message)
 
     def on_enter_multiAnalysis(self, event):
         print("I'm entering multiAnalysis")
         reply_token = event.reply_token
-        send_text_message(reply_token, "請選擇項目（收入／年齡）")
+        send_text_message(reply_token, "請選擇項目（收入中位數／平均數）")
 
     def on_enter_selectItem(self, event):
         print("I'm entering selectItem")
         reply_token = event.reply_token
         text = event.message.text
-        if text=="收入":
-            localpath = f'./output/中位數前100.png'
+
+        message = copy.deepcopy(template.carousel)
+        imgLinks = []
+        for order in "前後":
+            localpath = f'./output/{text}{order}100.png'
             if not os.path.exists(localpath):
-                vote.main(byData='中位數', numData=100, ascending=False)
+                ascending = False if order == "前" else True
+                vote.main(byData=text, numData=100, ascending=ascending)
             imgLink = uploadSMMS(localpath)
-        else:
-            pass
-
-        send_image_url(event.reply_token, imgLink)
-
-        # 輸入「返回」返回目錄（要多做按鈕）
+            imgLinks.append(imgLink)
+            cur_image_map = copy.deepcopy(template.image_map)
+            title = f"收入{text}{order}100村里同意率"
+            cur_image_map['header']['contents'][0]['text'] = title
+            cur_image_map['hero']['url'] = imgLink
+            cur_image_map['hero']['aspectRatio'] = "1.3:1"
+            cur_image_map['body']['contents'][0]['text'] = "若要查詢其他項目，請直接繼續輸入"
+            cur_image_map['footer']['contents'][0]['action']['uri'] = imgLink
+            message['contents'].append(cur_image_map)
+        #print(message)
+        send_flex_message(event.reply_token, "顯示複合分析圖", message)
 
     def on_enter_funcIntro(self, event):
         print("I'm entering funcIntro")
         reply_token = event.reply_token
-        send_text_message(reply_token, "功能介紹：查詢投票數據、顯示視覺化資料、複合分析")
-
-        # 輸入「返回」返回目錄（要多做按鈕）
+        send_flex_message(event.reply_token, "功能介紹", template.intro)
 
 '''
     def on_enter_state2(self, event):
