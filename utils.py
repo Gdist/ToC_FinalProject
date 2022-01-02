@@ -55,17 +55,6 @@ def send_flex_message(reply_token, alt_text, message):
     line_bot_api.reply_message(reply_token, flex_message)
     return "OK"
 
-def upload_to_imgur(localpath):
-    im = pyimgur.Imgur(imgurClientID)
-    title = localpath[localpath.rfind('/')+1:localpath.rfind('.')]
-    print(title)
-    uploaded_image = im.upload_image(localpath, title=title)
-    print(uploaded_image.title)
-    print(uploaded_image.link)
-    print(uploaded_image.size)
-    print(uploaded_image.type)
-    return uploaded_image.link
-
 def uploadSMMS(localpath):
     headers = {'Authorization': smms_token}
     files = {'smfile': open(localpath, 'rb')}
