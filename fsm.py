@@ -15,7 +15,7 @@ class TocMachine(GraphMachine):
 
     # Conditions
     def is_going_to_menu(self, event):
-        return event.type == "follow" or event.message.text in ["menu", "主選單"]
+        return event.type == "follow" or event.message.text.lower() in ["menu", "主選單"]
         #return event.type == "follow" or event.message.text
 
     def is_going_to_showFSM(self, event):

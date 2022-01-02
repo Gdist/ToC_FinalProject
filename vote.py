@@ -3,6 +3,7 @@ import requests, json
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
+from palettable.colorbrewer.qualitative import * # Color Map
 
 requests.packages.urllib3.disable_warnings()
 
@@ -72,7 +73,7 @@ def plot(count, saveName):
 	}
 
 	df = pd.DataFrame(data, index=range(17,21))
-	df.plot(kind='bar', stacked=True, colormap='tab20b', figsize=(10, 6), rot=0)
+	df.plot(kind='bar', stacked=True, colormap=Paired_3.mpl_colormap, figsize=(10, 6), rot=0)
 
 	plt.legend(loc="lower left", ncol=2)
 	plt.title(saveName, fontsize=20, fontweight="bold")
@@ -147,4 +148,4 @@ def main(byData='中位數', numData=100, ascending=False):
 
 if __name__ == '__main__':
 	data = readDataFromJson(saveJSON=True, saveCSV=True)
-	#main(byData='中位數', numData=100, ascending=False)
+	main(byData='中位數', numData=100, ascending=False)

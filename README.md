@@ -2,6 +2,8 @@
 
 ## 簡介
 
+- 用於查詢2021年台灣各地區公投結果、產生分層設色圖、以及與村里收入進行複合分析
+
 ## 環境
 
 - WSL 1 : Ubuntu 18.04 LTS
@@ -24,7 +26,7 @@
 - palettable
 	- 調色盤，使用palettable.cmocean.diverging下的Delta此color map，做藍綠對照
 
-## Setup
+## 設置
 ### Prerequisite
 - `graphviz`
 ```shell
@@ -48,7 +50,6 @@ sudo apt-get install graphviz graphviz-dev
 		snap install ngrok
 		```
 
-
 ### Install Dependency
 
 1. 安裝 `pipenv`
@@ -70,7 +71,7 @@ pipenv install
 - SM.MS
     - SMMS_API_TOKEN
 
-### Run
+### 執行
 
 1. run `ngrok` to deploy Line Chat Bot locally
 ```shell
@@ -87,16 +88,31 @@ pipenv run python3 app.py
 ![fsm](./fsm.png)
 
 ## Usage
-The initial state is set to `user`.
 
-Every time `user` state is triggered to `advance` to another state, it will `go_back` to `user` state after the bot replies corresponding message.
+### States
+- `user`: 起始點，接收到追蹤訊息後進入`menu`
+- `showFSM`: 此階段隱藏，可從`user`和`menu`進入，用於回傳FSM圖
+- `menu`: 主選單目錄，可從顯示之選單進入以下4個功能階段
+- `voteStats`: 投票數據功能，若輸入合法進入`voteStatsRegion`
+	- input: `縣市-鄉鎮市區-村里`，以`-,_ `分隔皆可，允許只輸入`縣市-鄉鎮市區`或`縣市`
+	- `voteStatsRegion`: 顯示輸入地區之投票結果，允許再次輸入，或點擊返回回到`menu`
+- `visualData`: 視覺化數據功能，若輸入合法進入`visualDataRegion`
+	- input: `全國` 或 `縣市`，因圖資只到鄉鎮層級，無法產生鄉鎮市區的分層設色圖
+	- `visualDataRegion`: 顯示輸入地區之分層設色圖，允許再次輸入，或點擊返回回到`menu`
+- `multiAnalysis`: 複合分析功能，因找不到村里平均年齡資料，暫時只有與收入中位數/平均數的複合分析
+	- `selectItem`: 顯示投票結果與對應資料的複合分析，允許再次輸入，或點擊返回回到`menu`
+- `funcIntro` : 功能介紹，點擊返回回到`menu`
 
-* user
-	* Input: "go to state1"
-		* Reply: "I'm entering state1"
+### ScreenShots
 
-	* Input: "go to state2"
-		* Reply: "I'm entering state2"
+- 查詢投票數據
+![查詢投票數據](https://i.imgur.com/yKWatdz.jpg)
+- 顯示視覺化資料
+![顯示視覺化資料](https://i.imgur.com/xDwaMLO.jpg)
+- 複合資料分析
+![複合資料分析](https://i.imgur.com/sojPSoJ.jpg)
+- 功能介紹與說明
+![功能介紹與說明](https://i.imgur.com/xmhBKD1.jpg)
 
 ## Deploy
 Setting to deploy webhooks on Heroku.
