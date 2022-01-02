@@ -80,6 +80,16 @@ def uploadSMMS(localpath):
             return False
     else:
         return res['data']['url']
+def readJson(filepath='./output/upload.json'):
+    data = {}
+    if os.path.exists(filepath):
+        with open(filepath, encoding='utf-8') as f:
+            data = json.load(f)
+    return data
+
+def saveJson(data, filepath='./output/upload.json'):
+    with open(filepath, 'w', encoding='utf-8') as f:
+        json.dump(data, f, ensure_ascii=False, indent=4)
 
 if __name__ == '__main__':
     url = uploadSMMS('./output/map/Taiwan_All.png')

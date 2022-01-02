@@ -85,7 +85,7 @@ def create_machine():
             {
                 "trigger": "advance",
                 "source": ["voteStats", "visualData", "multiAnalysis",
-                	"voteStatsRegion", "visualDataRegion", "selectItem", "funcIntro"],
+                    "voteStatsRegion", "visualDataRegion", "selectItem", "funcIntro"],
                 "dest": "menu",
                 "conditions": "is_go_back_to_menu",
             },

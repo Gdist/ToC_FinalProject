@@ -8,6 +8,9 @@ import vote, choropleth
 import copy
 
 voteData = vote.readDataFromJson()
+uploadURL = readJson('./output/upload.json')
+if 'map' not in uploadURL.keys():
+    uploadURL['map'] = {}
 
 class TocMachine(GraphMachine):
     def __init__(self, **machine_configs):
@@ -143,13 +146,14 @@ class TocMachine(GraphMachine):
         city = 'Taiwan' if text in ["全國", "臺灣", "台灣"] else text
 
         message = copy.deepcopy(template.carousel)
-        imgLinks = []
         for themeId in ['All'] + list(range(17,21)):
             localpath = f'./output/map/{city}_{themeId}.png'
             if not os.path.exists(localpath):
                 choropleth.plotCity(themeId=themeId, cityName=city)
-            imgLink = uploadSMMS(localpath)
-            imgLinks.append(imgLink)
+            key = f"{city}_{themeId}"
+            if not key in uploadURL['map'].keys():
+                uploadURL['map'][key] = uploadSMMS(localpath)
+            imgLink = uploadURL['map'][key]
             cur_image_map = copy.deepcopy(template.image_map)
             title = f"{text}第{themeId}案同意率" if isinstance(themeId, int) else f"{text}四案同意率"
             cur_image_map['header']['contents'][0]['text'] = title
@@ -158,6 +162,7 @@ class TocMachine(GraphMachine):
             message['contents'].append(cur_image_map)
         #print(message)
         #send_image_url(event.reply_token, imgLinks[0])
+        saveJson(uploadURL, filepath='./output/upload.json')
         send_flex_message(event.reply_token, "顯示分層設色圖", message)
 
     def on_enter_multiAnalysis(self, event):
@@ -171,14 +176,15 @@ class TocMachine(GraphMachine):
         text = event.message.text
 
         message = copy.deepcopy(template.carousel)
-        imgLinks = []
         for order in "前後":
             localpath = f'./output/{text}{order}100.png'
             if not os.path.exists(localpath):
                 ascending = False if order == "前" else True
                 vote.main(byData=text, numData=100, ascending=ascending)
-            imgLink = uploadSMMS(localpath)
-            imgLinks.append(imgLink)
+            key = f"{text}{order}100"
+            if not key in uploadURL['map'].keys():
+                uploadURL['map'][key] = uploadSMMS(localpath)
+            imgLink = uploadURL['map'][key]
             cur_image_map = copy.deepcopy(template.image_map)
             title = f"收入{text}{order}100村里同意率"
             cur_image_map['header']['contents'][0]['text'] = title
