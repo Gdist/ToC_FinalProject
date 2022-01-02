@@ -72,6 +72,12 @@ def create_machine():
             },
             {
                 "trigger": "advance",
+                "source": "selectItem",
+                "dest": "selectItem",
+                "conditions": "is_going_to_selectItem",
+            },
+            {
+                "trigger": "advance",
                 "source": "menu",
                 "dest": "funcIntro",
                 "conditions": "is_going_to_funcIntro",

@@ -1,3 +1,7 @@
+# Output file
+output/*
+output/map/*
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
