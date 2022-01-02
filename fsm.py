@@ -182,9 +182,9 @@ class TocMachine(GraphMachine):
                 ascending = False if order == "前" else True
                 vote.main(byData=text, numData=100, ascending=ascending)
             key = f"{text}{order}100"
-            if not key in uploadURL['map'].keys():
-                uploadURL['map'][key] = uploadSMMS(localpath)
-            imgLink = uploadURL['map'][key]
+            if not key in uploadURL.keys():
+                uploadURL[key] = uploadSMMS(localpath)
+            imgLink = uploadURL[key]
             cur_image_map = copy.deepcopy(template.image_map)
             title = f"收入{text}{order}100村里同意率"
             cur_image_map['header']['contents'][0]['text'] = title

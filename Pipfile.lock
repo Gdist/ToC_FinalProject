@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "ebba98294381e4f13cce778ad3efb19e820f967edad5bb26eedb7453953b87de"
+            "sha256": "f41f8a82447069254d3d43f8e93786088f03e88df6a44c595940b8e721eecee2"
         },
         "pipfile-spec": 6,
         "requires": {
@@ -473,14 +473,6 @@
             ],
             "index": "pypi",
             "version": "==1.5"
-        },
-        "pyimgur": {
-            "hashes": [
-                "sha256:ad22deea062fe8e7412d0bdfc70cbf305a828c6390096d3523ed3d7dbeb2bdff",
-                "sha256:f776ca7f14663bd9ac14a1380db62c87ed32231d159d2d167ad1cb817dcb9144"
-            ],
-            "index": "pypi",
-            "version": "==0.6.0"
         },
         "pyparsing": {
             "hashes": [
