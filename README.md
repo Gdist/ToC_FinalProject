@@ -106,12 +106,19 @@ pipenv run python3 app.py
 ### ScreenShots
 
 - 查詢投票數據
+
 ![查詢投票數據](https://i.imgur.com/yKWatdz.jpg)
+
 - 顯示視覺化資料
+
 ![顯示視覺化資料](https://i.imgur.com/xDwaMLO.jpg)
+
 - 複合資料分析
+
 ![複合資料分析](https://i.imgur.com/sojPSoJ.jpg)
+
 - 功能介紹與說明
+
 ![功能介紹與說明](https://i.imgur.com/xmhBKD1.jpg)
 
 ## Deploy
