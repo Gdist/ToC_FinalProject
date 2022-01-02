@@ -1,77 +1,90 @@
-# TOC Project 2020
+# Line VoteStatsBot 
 
-[![Maintainability](https://api.codeclimate.com/v1/badges/dc7fa47fcd809b99d087/maintainability)](https://codeclimate.com/github/NCKU-CCS/TOC-Project-2020/maintainability)
+## 簡介
 
-[![Known Vulnerabilities](https://snyk.io/test/github/NCKU-CCS/TOC-Project-2020/badge.svg)](https://snyk.io/test/github/NCKU-CCS/TOC-Project-2020)
+## 環境
 
+- WSL 1 : Ubuntu 18.04 LTS
+	- 建議將apt sources.list 更換為 `tw.archive.ubuntu.com`
+- python 3.6.9
+- ngrok
 
-Template Code for TOC Project 2020
+## 使用套件
 
-A Line bot based on a finite state machine
-
-More details in the [Slides](https://hackmd.io/@TTW/ToC-2019-Project#) and [FAQ](https://hackmd.io/s/B1Xw7E8kN)
+- requests
+	- 爬取中選會網站上的投票數據、上傳圖片至圖床空間
+- pandas
+    - 以DataFrame型式處理CSV資料
+- geopandas
+	- 處理.shp的地圖資料，並調用matplotlib.pyplot產生分層設色圖
+- matplotlib.pyplot
+	- 繪製統計圖表
+- mapclassify
+	- 處理地圖分層方法
+- palettable
+	- 調色盤，使用palettable.cmocean.diverging下的Delta此color map，做藍綠對照
 
 ## Setup
-
 ### Prerequisite
-* Python 3.6
-* Pipenv
-* Facebook Page and App
-* HTTPS Server
+- `graphviz`
+```shell
+sudo apt-get install graphviz graphviz-dev
+```
+- `ngrok`
+	- WSL (Can't use snap)
+	```shell
+	wget https://bin.equinox.io/c/4VmDzA7iaHb/ngrok-stable-linux-amd64.tgz
+	sudo tar xvzf ngrok-stable-linux-amd64.tgz -C /usr/local/bin
+	```
+	- Linux
+		- Install ngrok via Apt
+		```shell
+		curl -s https://ngrok-agent.s3.amazonaws.com/ngrok.asc | sudo tee /etc/apt/trusted.gpg.d/ngrok.asc >/dev/null &&
+              echo "deb https://ngrok-agent.s3.amazonaws.com buster main" | sudo tee /etc/apt/sources.list.d/ngrok.list &&
+              sudo apt update && sudo apt install ngrok
+		```
+		- Install ngrok via Snap
+		```shell
+		snap install ngrok
+		```
 
-#### Install Dependency
-```sh
+
+### Install Dependency
+
+1. 安裝 `pipenv`
+```shell
 pip3 install pipenv
-
-pipenv --three
-
+```
+2. 產生 `pipenv` 虛擬環境
+```shell
+pipenv --python 3.6
+```
+3. 在虛擬環境下安裝套件 (需先安裝graphviz)
+```shell
 pipenv install
-
-pipenv shell
 ```
+4. 將 `.env.sample` 改名為 `.env` ，並填入對應SECRET和TOKEN
+- Line
+    - LINE_CHANNEL_SECRET
+    - LINE_CHANNEL_ACCESS_TOKEN
+- SM.MS
+    - SMMS_API_TOKEN
 
-* pygraphviz (For visualizing Finite State Machine)
-    * [Setup pygraphviz on Ubuntu](http://www.jianshu.com/p/a3da7ecc5303)
-	* [Note: macOS Install error](https://github.com/pygraphviz/pygraphviz/issues/100)
+### Run
 
-
-#### Secret Data
-You should generate a `.env` file to set Environment Variables refer to our `.env.sample`.
-`LINE_CHANNEL_SECRET` and `LINE_CHANNEL_ACCESS_TOKEN` **MUST** be set to proper values.
-Otherwise, you might not be able to run your code.
-
-#### Run Locally
-You can either setup https server or using `ngrok` as a proxy.
-
-#### a. Ngrok installation
-* [ macOS, Windows, Linux](https://ngrok.com/download)
-
-or you can use Homebrew (MAC)
-```sh
-brew cask install ngrok
-```
-
-**`ngrok` would be used in the following instruction**
-
-```sh
+1. run `ngrok` to deploy Line Chat Bot locally
+```shell
+screen -S ngrok
 ngrok http 8000
+Ctrl+D to exit
 ```
-
-After that, `ngrok` would generate a https URL.
-
-#### Run the sever
-
-```sh
-python3 app.py
+2. execute app.py
+```shell
+pipenv run python3 app.py
 ```
-
-#### b. Servo
-
-Or You can use [servo](http://serveo.net/) to expose local servers to the internet.
-
 
 ## Finite State Machine
-![fsm](./img/show-fsm.png)
+![fsm](./fsm.png)
 
 ## Usage
 The initial state is set to `user`.

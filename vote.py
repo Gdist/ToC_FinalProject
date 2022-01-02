@@ -2,6 +2,7 @@ import os
 import requests, json
 import numpy as np
 import pandas as pd
+import matplotlib.pyplot as plt
 
 requests.packages.urllib3.disable_warnings()
 
@@ -62,7 +63,6 @@ def readDataFromJson(saveJSON=True, saveCSV=False):
 	return data
 
 def plot(count, saveName):
-	import matplotlib.pyplot as plt
 	plt.rcParams['font.sans-serif'] = ['Microsoft JhengHei'] 
 	plt.rcParams['axes.unicode_minus'] = False
 
