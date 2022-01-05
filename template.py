@@ -66,6 +66,151 @@ mainMenu = {
   }
 }
 
+itemMenu = {
+  "type": "bubble",
+  "body": {
+    "type": "box",
+    "layout": "vertical",
+    "contents": [
+      {
+        "type": "text",
+        "text": "選擇分析項目",
+        "weight": "bold",
+        "size": "xl"
+      }
+    ]
+  },
+  "footer": {
+    "type": "box",
+    "layout": "vertical",
+    "spacing": "sm",
+    "contents": [
+      {
+        "type": "text",
+        "text": "收入",
+        "size": "lg",
+        "weight": "bold",
+        "align": "center",
+        "gravity": "bottom"
+      },
+      {
+        "type": "box",
+        "layout": "horizontal",
+        "contents": [
+          {
+            "type": "button",
+            "action": {
+              "type": "message",
+              "label": "平均數",
+              "text": "收入-平均數"
+            },
+            "color": "#DEFCF9",
+            "style": "secondary"
+          },
+          {
+            "type": "button",
+            "action": {
+              "type": "message",
+              "label": "中位數",
+              "text": "收入-中位數"
+            },
+            "color": "#E3FDFD",
+            "style": "secondary"
+          }
+        ]
+      },
+      {
+        "type": "text",
+        "text": "年齡",
+        "size": "lg",
+        "weight": "bold",
+        "align": "center",
+        "gravity": "bottom"
+      },
+      {
+        "type": "box",
+        "layout": "horizontal",
+        "contents": [
+          {
+            "type": "button",
+            "action": {
+              "type": "message",
+              "label": "平均數",
+              "text": "年齡-平均數"
+            },
+            "style": "secondary",
+            "color": "#E3FDFD"
+          },
+          {
+            "type": "button",
+            "action": {
+              "type": "message",
+              "label": "中位數",
+              "text": "年齡-中位數"
+            },
+            "style": "secondary",
+            "color": "#DEFCF9"
+          }
+        ]
+      },
+      {
+        "type": "box",
+        "layout": "horizontal",
+        "contents": [
+          {
+            "type": "button",
+            "action": {
+              "type": "message",
+              "label": "30歲以下",
+              "text": "年齡-30歲以下比例"
+            },
+            "color": "#DEFCF9",
+            "style": "secondary"
+          },
+          {
+            "type": "button",
+            "action": {
+              "type": "message",
+              "label": "40歲以下",
+              "text": "年齡-40歲以下比例"
+            },
+            "style": "secondary",
+            "color": "#E3FDFD"
+          }
+        ]
+      },
+      {
+        "type": "box",
+        "layout": "horizontal",
+        "contents": [
+          {
+            "type": "button",
+            "action": {
+              "type": "message",
+              "label": "70歲以上",
+              "text": "年齡-70歲以上比例"
+            },
+            "style": "secondary",
+            "color": "#E3FDFD"
+          },
+          {
+            "type": "button",
+            "action": {
+              "type": "message",
+              "label": "80歲以上",
+              "text": "年齡-80歲以上比例"
+            },
+            "style": "secondary",
+            "color": "#DEFCF9"
+          }
+        ]
+      }
+    ],
+    "flex": 0
+  }
+}
+
+
 image_map = {
   "type": "bubble",
   "direction": "ltr",

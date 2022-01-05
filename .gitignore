@@ -1,6 +1,7 @@
 # Output file
-output/*
 output/map/*
+output/anyly/*
+output/wah/*
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

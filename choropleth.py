@@ -87,16 +87,17 @@ def plotCity(themeId="All", cityName="臺南市"):
 					scheme='NaturalBreaks', k=11,
 				)
 	title = f"{cityName}第{themeId}案同意率分層設色圖" if isinstance(themeId, int) else f"{cityName}四案同意率分層設色圖"
-	plt.title(title , fontsize=24) 
+	plt.title(title , fontsize=24)
+	if cityName == "高雄市":
+		plt.xlim((120, 121.2))
+		plt.ylim((22.3, 23.6))
 	plt.axis('off')
 	plt.savefig(f'./output/map/{cityName}_{themeId}.png')
 
 if __name__ == '__main__':
 	#plotTaiwan(themeId='All')
 	#plotCity(themeId='All', cityName="高雄市")
-	for themeId in ['All'] + list(range(17,21)):
-		plotTaiwan(themeId)
-		plotCity(themeId, cityName="臺南市")
+	plotCity(themeId='All', cityName="澎湖縣")
 	
 
 
