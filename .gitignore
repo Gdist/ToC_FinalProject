@@ -2,7 +2,7 @@
 output/map/*
 output/anyly/*
 output/wah/*
-output/upload.json
+output/*
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
