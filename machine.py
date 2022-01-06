@@ -6,7 +6,7 @@ def create_machine():
         states=["user", "menu", "showFSM",
             "voteStats", "voteStatsRegion",
             "visualData", "visualDataRegion",
-            "multiAnalysis", "selectItem",
+            "multiAnalysis", "selectItem", "selectNum",
             "funcIntro", 
             ],
         transitions=[

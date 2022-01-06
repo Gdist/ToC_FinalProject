@@ -79,7 +79,8 @@ class TocMachine(GraphMachine):
 	def is_going_to_selectNum(self, event):
 		text = event.message.text
 		try:
-			return int(text)
+			int(text)
+			return True
 		except:
 			return False
 	def is_going_to_funcIntro(self, event):
@@ -191,6 +192,7 @@ class TocMachine(GraphMachine):
 
 	def on_enter_selectItem(self, event):
 		reply_token = event.reply_token
+		global selItem
 		selItem = event.message.text.split("-")
 		send_text_message(reply_token, f"您選擇的分析項目是{selItem[0]} {selItem[1]}，請輸入想分析的數量")
 
