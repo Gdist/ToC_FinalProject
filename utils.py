@@ -4,22 +4,13 @@ from dotenv import load_dotenv
 from linebot import LineBotApi, WebhookParser
 from linebot.models import MessageEvent, TextMessage, TextSendMessage, ImageSendMessage, FlexSendMessage
 from linebot.models import *
-from imgurpython import ImgurClient, helpers
 
 load_dotenv()
 
 channel_access_token = os.getenv("LINE_CHANNEL_ACCESS_TOKEN", None)
 line_bot_api = LineBotApi(channel_access_token)
 
-imgur_client_id = os.getenv("IMGUR_CLIENT_ID", None)
-imgur_client_secret = os.getenv("IMGUR_CLIENT_SECRET", None)
-imgur_access_token = os.getenv("IMGUR_ACCESS_TOKEN", None)
-imgur_refresh_token = os.getenv("IMGUR_REFRESH_TOKEN", None)
-imgur_album_id = os.getenv("IMGUR_ALBUM_ID", None)
-
 smms_token = os.getenv("SMMS_API_TOKEN", None)
-
-ImgurClientRateLimit = False
 
 def send_text_message(reply_token, text):
     line_bot_api.reply_message(reply_token, TextSendMessage(text=text))
@@ -92,23 +83,6 @@ def uploadSMMS(localpath):
     else:
         return res['data']['url']
 
-def uploadIMGUR(localpath):
-    global ImgurClientRateLimit
-    if ImgurClientRateLimit:
-        return uploadSMMS(localpath)
-    print(f"Uploading {localpath} to imgur.com, use method1")
-    imgur_client = ImgurClient(imgur_client_id, imgur_client_secret, imgur_access_token, imgur_refresh_token)
-
-    name = localpath[localpath.rfind('/')+1: localpath.rfind('.')]
-    config = {'album': imgur_album_id, 'name': name, 'title': name}
-    try:
-        image = imgur_client.upload_from_path(localpath, config=config, anon=False)
-        return image['link']
-    except helpers.error.ImgurClientRateLimitError:
-        ImgurClientRateLimit = True
-        print("ImgurClientRateLimit, change to method2")
-        return uploadIMGUR2(localpath)
-
 def uploadIMGUR2(localpath):
     print(f"Uploading {localpath} to imgur.com, use method2")
     name = os.path.basename(localpath)
@@ -120,6 +94,10 @@ def uploadIMGUR2(localpath):
     res = requests.post(url, headers=headers, data=data, files=files).json()
     if res['success']:
         return res['data']['link']
+    elif smms_token:
+        return uploadSMMS(localpath)
+    else:
+        return uploadCC(localpath)
     print(res)
 
 def uploadTUMY(localpath):
@@ -132,6 +110,7 @@ def uploadTUMY(localpath):
     print(res)
     
 def uploadCC(localpath): #很慢，上傳速度不到500Kbps
+    print(f"Uploading {localpath} to upload.cc")
     files = {'uploaded_file[]': open(localpath, 'rb')}
     headers = {'referer': 'https://upload.cc/'}
     res = requests.post("https://upload.cc/image_upload", files=files, headers=headers).json()
