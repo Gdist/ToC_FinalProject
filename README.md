@@ -1,8 +1,9 @@
-# Line 2021TWVoteStatsBot 
+# LineBot-2021TWVoteStats 
 
 ## 簡介
 
 - 用於查詢2021年台灣各地區公投結果、產生分層設色圖、以及與村里收入進行複合分析
+- `master` 分支為deadline前繳交，與當前`after`分支相比主要多了更多複合分析項目以及更改上傳圖床
 
 ## 環境
 
@@ -68,16 +69,50 @@ pipenv install
 - Line
     - LINE_CHANNEL_SECRET
     - LINE_CHANNEL_ACCESS_TOKEN
-- SM.MS
-    - SMMS_API_TOKEN
+- ~~SM.MS~~
+    - ~~SMMS_API_TOKEN~~
+
+### 安裝中文字體
+
+1. 查看虛擬環境下matplotlib存放目錄
+
+	- 進入pipenv下的python shell
+    ```shell
+    pipenv run python3
+    // Ctrl+D 或 輸入 exit() 退出
+    ```
+    - 執行python程式碼
+
+    ```python
+    import matplotlib
+    matplotlib.matplotlib_fname()
+
+    # 輸出範例
+    '.../matplotlib/mpl-data/matplotlibrc'
+    # 目錄
+    '.../matplotlib/mpl-data'
+    ```
+
+2. 下載Noto_Sans_TC字體，解壓至./fonts/ttf
+```shell
+wget -O Noto_Sans_TC.zip https://fonts.google.com/download?family=Noto%20Sans%20TC
+
+unzip Noto_Sans_TC.zip -d {YOUR_FOLDER}/matplotlib/mpl-data/fonts/ttf/
+```
+
+3. 再次進入pipenv下的python shell，重新加載字體
+
+```python
+from matplotlib.font_manager import _rebuild
+_rebuild() 
+```
 
 ### 執行
 
 1. run `ngrok` to deploy Line Chat Bot locally
 ```shell
 screen -S ngrok
-ngrok http 8000
-Ctrl+D to exit
+ngrok http 8000 //Ctrl+D to exit
 ```
 2. execute app.py
 ```shell
@@ -99,8 +134,11 @@ pipenv run python3 app.py
 - `visualData`: 視覺化數據功能，若輸入合法進入`visualDataRegion`
 	- input: `全國` 或 `縣市`，因圖資只到鄉鎮層級，無法產生鄉鎮市區的分層設色圖
 	- `visualDataRegion`: 顯示輸入地區之分層設色圖，允許再次輸入，或點擊返回回到`menu`
-- `multiAnalysis`: 複合分析功能，因找不到村里平均年齡資料，暫時只有與收入中位數/平均數的複合分析
-	- `selectItem`: 顯示投票結果與對應資料的複合分析，允許再次輸入，或點擊返回回到`menu`
+- `multiAnalysis`: 複合分析功能，可根據收入、年齡，進行複合分析，分析項目以選單顯示
+	- input: `收入-分析項目` 或 `年齡-分析項目`，選單將呈現主要的項目
+	- `selectItem`: 選擇分析項目後允許輸入選取的資料數量(前後各100)，輸入返回回到`menu`
+	- input: `整數值`，即分析項目下分析前後多少數量
+	- `selectNum`: 根據輸入項目、數量，顯示投票結果與對應資料的複合分析，允許再次輸入(分析數量)，或點擊返回回到`menu`
 - `funcIntro` : 功能介紹，點擊返回回到`menu`
 
 ### ScreenShots
