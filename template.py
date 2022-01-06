@@ -252,7 +252,7 @@ image_map = {
       },
       {
         "type": "text",
-        "text": "若要返回主目錄，請點擊返回鍵",
+        "text": "若要返回主目錄，請點擊返回目錄鍵",
         "contents": []
       }
     ]
@@ -275,8 +275,8 @@ image_map = {
         "type": "button",
         "action": {
           "type": "message",
-          "label": "返回",
-          "text": "返回"
+          "label": "返回目錄",
+          "text": "返回目錄"
         },
         "color": "#95CD41",
         "style": "primary"
@@ -351,7 +351,7 @@ intro = {
       },
       {
         "type": "text",
-        "text": "將公投結果與各村里收入做複合分析",
+        "text": "將公投結果與各村里收入與年齡做複合分析",
         "wrap": True
       }
     ]
@@ -364,8 +364,8 @@ intro = {
         "type": "button",
         "action": {
           "type": "message",
-          "label": "返回",
-          "text": "返回"
+          "label": "返回目錄",
+          "text": "返回目錄"
         },
         "color": "#95CD41",
         "style": "primary"
@@ -405,8 +405,8 @@ text = {
         "type": "button",
         "action": {
           "type": "message",
-          "label": "返回",
-          "text": "返回"
+          "label": "返回目錄",
+          "text": "返回目錄"
         },
         "color": "#95CD41",
         "style": "primary"
@@ -428,8 +428,20 @@ text_subtitle = {
     "wrap": True,
     }
 
+btn = {
+  "type": "button",
+  "action": {
+    "type": "message",
+    "label": "重新選擇分析項目",
+    "text": "重新選擇分析項目"
+    },
+  "color": "#F6D860",
+  "style": "primary"
+  }
+
 if __name__ == '__main__':
     image_map['header']['contents'][0]['text'] = "標題"
     image_map['hero']['url'] = "LINK"
-    image_map['footer']['contents'][0]['action']['uri']  = "LINK"
-    print(image_map['footer']['contents'][0]['action']['uri'])
+    image_map['footer']['contents'].insert(1, btn)
+    print(image_map['footer']['contents'][0]['color'])
+    #print(image_map)

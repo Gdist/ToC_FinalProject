@@ -127,18 +127,18 @@ pipenv run python3 app.py
 ### States
 - `user`: 起始點，接收到追蹤訊息後進入`menu`
 - `showFSM`: 此階段隱藏，可從`user`和`menu`進入，用於回傳FSM圖
-- `menu`: 主選單目錄，可從顯示之選單進入以下4個功能階段
+- `menu`: 主選單目錄，可從顯示之選單進入以下4個功能階段，在任何階段輸入含有`menu`或`目錄`的文字可返回目錄
 - `voteStats`: 投票數據功能，若輸入合法進入`voteStatsRegion`
 	- input: `縣市-鄉鎮市區-村里`，以`-,_ `分隔皆可，允許只輸入`縣市-鄉鎮市區`或`縣市`
-	- `voteStatsRegion`: 顯示輸入地區之投票結果，允許再次輸入，或點擊返回回到`menu`
+	- `voteStatsRegion`: 顯示輸入地區之投票結果，允許再次輸入，或點擊`返回目錄`回到`menu`
 - `visualData`: 視覺化數據功能，若輸入合法進入`visualDataRegion`
 	- input: `全國` 或 `縣市`，因圖資只到鄉鎮層級，無法產生鄉鎮市區的分層設色圖
-	- `visualDataRegion`: 顯示輸入地區之分層設色圖，允許再次輸入，或點擊返回回到`menu`
+	- `visualDataRegion`: 顯示輸入地區之分層設色圖，允許再次輸入，或點擊`返回目錄`回到`menu`
 - `multiAnalysis`: 複合分析功能，可根據收入、年齡，進行複合分析，分析項目以選單顯示
 	- input: `收入-分析項目` 或 `年齡-分析項目`，選單將呈現主要的項目
-	- `selectItem`: 選擇分析項目後允許輸入選取的資料數量(前後各100)，輸入返回回到`menu`
+	- `selectItem`: 選擇分析項目後允許輸入選取的資料數量，輸入`目錄`回到`menu`
 	- input: `整數值`，即分析項目下分析前後多少數量
-	- `selectNum`: 根據輸入項目、數量，顯示投票結果與對應資料的複合分析，允許再次輸入(分析數量)，或點擊返回回到`menu`
+	- `selectNum`: 根據輸入項目、數量，顯示投票結果與對應資料的複合分析，允許再次輸入分析數量、`重新選擇分析項目`回到`multiAnalysis`、或點擊`返回目錄`回到`menu`
 - `funcIntro` : 功能介紹，點擊返回回到`menu`
 
 ### ScreenShots

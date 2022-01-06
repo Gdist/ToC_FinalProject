@@ -14,8 +14,6 @@ if 'map' not in uploadURL.keys():
 if 'anyly' not in uploadURL.keys():
 	uploadURL['anyly'] = {}
 
-global selItem
-
 class TocMachine(GraphMachine):
 	def __init__(self, **machine_configs):
 		self.machine = GraphMachine(model=self, **machine_configs)
@@ -34,7 +32,7 @@ class TocMachine(GraphMachine):
 
 	def is_going_to_voteStatsRegion(self, event):
 		text = event.message.text
-		text = text.replace("總計", "合計")
+		text = text.replace("總計", "合計").replace("台", "臺")
 		for sep in "-,_ ":
 			splits = text.split(sep)
 			if len(splits)==3:
@@ -54,8 +52,8 @@ class TocMachine(GraphMachine):
 		return event.message.text == "視覺資料"
 
 	def is_going_to_visualDataRegion(self, event):
-		text = event.message.text
-		if text in ["全國", "臺灣", "台灣"]:
+		text = event.message.text.replace("台", "臺")
+		if text in ["全國", "臺灣"]:
 			return True
 		elif text in voteData[17]:
 			return True
@@ -83,12 +81,17 @@ class TocMachine(GraphMachine):
 			return True
 		except:
 			return False
+
+	def is_going_back_to_multiAnalysis(self, event):
+		text = event.message.text
+		return text == "重新選擇分析項目"
+
 	def is_going_to_funcIntro(self, event):
 		return event.message.text == "功能說明"
 
 	def is_go_back_to_menu(self, event):
 		text = event.message.text
-		return "返回" in text
+		return "目錄" in text or "menu" in text.lower()
 
 	# Enter states
 	def on_enter_menu(self, event):
@@ -109,7 +112,7 @@ class TocMachine(GraphMachine):
 		print("I'm entering voteStatsRegion")
 		reply_token = event.reply_token
 		text = event.message.text
-		text = text.replace("總計", "合計")
+		text = text.replace("總計", "合計").replace("台", "臺")
 
 		for sep in "-,_ ":
 			splits = text.split(sep)
@@ -149,7 +152,7 @@ class TocMachine(GraphMachine):
 
 		send_flex_message(event.reply_token, "顯示投票數據", message)
 
-		# 繼續輸入或輸入「返回」返回目錄（要多做按鈕）
+		# 繼續輸入或輸入「返回」返回目錄
 
 	def on_enter_visualData(self, event):
 		print("I'm entering visualData")
@@ -159,7 +162,7 @@ class TocMachine(GraphMachine):
 	def on_enter_visualDataRegion(self, event):
 		print("I'm entering visualDataRegion")
 		reply_token = event.reply_token
-		text = event.message.text
+		text = event.message.text.replace("台", "臺")
 		city = 'Taiwan' if text in ["全國", "臺灣", "台灣"] else text
 
 		message = copy.deepcopy(template.carousel)
@@ -194,7 +197,7 @@ class TocMachine(GraphMachine):
 		reply_token = event.reply_token
 		global selItem
 		selItem = event.message.text.split("-")
-		send_text_message(reply_token, f"您選擇的分析項目是{selItem[0]} {selItem[1]}，請輸入想分析的數量")
+		send_text_message(reply_token, f"您選擇的分析項目是{selItem[0]}-{selItem[1]}，請輸入想分析的數量")
 
 	def on_enter_selectNum(self, event):
 		print("I'm entering selectItem")
@@ -222,6 +225,9 @@ class TocMachine(GraphMachine):
 			cur_image_map['hero']['aspectRatio'] = "1.3:1"
 			cur_image_map['body']['contents'][0]['text'] = "若要查詢其他項目，請直接繼續輸入"
 			cur_image_map['footer']['contents'][0]['action']['uri'] = imgLink
+			# 重新選擇
+			cur_image_map['footer']['contents'].insert(1, copy.deepcopy(template.btn))
+			cur_image_map['footer']['contents'][0]['color'] = "#FF7F3F"
 			message['contents'].append(cur_image_map)
 		#print(message)
 		send_flex_message(event.reply_token, "顯示複合分析圖", message)

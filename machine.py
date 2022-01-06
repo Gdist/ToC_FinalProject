@@ -73,14 +73,14 @@ def create_machine():
             {
                 "trigger": "advance",
                 "source": "selectItem",
-                "dest": "selectItem",
-                "conditions": "is_going_to_selectItem",
+                "dest": "selectNum",
+                "conditions": "is_going_to_selectNum",
             },
             {
                 "trigger": "advance",
-                "source": "selectItem",
-                "dest": "selectNum",
-                "conditions": "is_going_to_selectNum",
+                "source": "selectNum",
+                "dest": "multiAnalysis",
+                "conditions": "is_going_back_to_multiAnalysis",
             },
             {
                 "trigger": "advance",
