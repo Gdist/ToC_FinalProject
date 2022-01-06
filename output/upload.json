@@ -1,10 +1,5 @@
 {
     "map": {
-        "臺北市_All": "https://s2.loli.net/2022/01/02/UmosnryBO7E13vR.png",
-        "臺北市_17": "https://s2.loli.net/2022/01/02/tnNdP7kBSwhl93r.png",
-        "臺北市_18": "https://s2.loli.net/2022/01/02/9y61dqUY5rp4LKR.png",
-        "臺北市_19": "https://s2.loli.net/2022/01/02/UNL3Ylwx7OZ5KDg.png",
-        "臺北市_20": "https://s2.loli.net/2022/01/02/deEGv9jqgoHXn1S.png",
         "Taiwan_All": "https://i.imgur.com/c0vQPyE.png",
         "Taiwan_17": "https://i.imgur.com/e2fx54I.png",
         "Taiwan_18": "https://i.imgur.com/7jK7QLd.png",
@@ -59,24 +54,17 @@
         "澎湖縣_17": "https://i.imgur.com/Z34oGpj.png",
         "澎湖縣_18": "https://i.imgur.com/5vEQIMU.png",
         "澎湖縣_19": "https://i.imgur.com/4SYLcb8.png",
-        "澎湖縣_20": "https://i.imgur.com/JknGaqN.png"
+        "澎湖縣_20": "https://i.imgur.com/JknGaqN.png",
+        "臺北市_All": "https://i.imgur.com/DpVexsT.png",
+        "臺北市_17": "https://i.imgur.com/eoqQEyz.png",
+        "臺北市_18": "https://i.imgur.com/DAirKQw.png",
+        "臺北市_19": "https://i.imgur.com/OaDxP0X.png",
+        "臺北市_20": "https://i.imgur.com/f153WPE.png"
     },
     "anyly": {
-        "收入平均數最高100": "https://i.imgur.com/JU9cQ9p.png",
-        "收入平均數最低100": "https://i.imgur.com/nV4NNNc.png",
-        "收入中位數最高100": "https://i.imgur.com/e0VB1BG.png",
-        "收入中位數最低100": "https://i.imgur.com/mSA3AP9.png",
-        "年齡平均數最高100": "https://i.imgur.com/BAJzLgi.png",
-        "年齡平均數最低100": "https://i.imgur.com/bJLcwLK.png",
-        "年齡30歲以下比例最高100": "https://i.imgur.com/TWU4Wve.png",
-        "年齡30歲以下比例最低100": "https://i.imgur.com/7WMOzen.png",
-        "年齡40歲以下比例最高100": "https://i.imgur.com/qbhGWjL.png",
-        "年齡40歲以下比例最低100": "https://i.imgur.com/uwLstVo.png",
-        "年齡70歲以上比例最高100": "https://i.imgur.com/vMgTfaI.png",
-        "年齡70歲以上比例最低100": "https://i.imgur.com/2GdYMkk.png",
-        "年齡80歲以上比例最高100": "https://i.imgur.com/LY85alW.png",
-        "年齡80歲以上比例最低100": "https://i.imgur.com/vo0Z8FK.png",
-        "年齡中位數最高100": "https://i.imgur.com/oU27Jzq.png",
-        "年齡中位數最低100": "https://i.imgur.com/dFq77Ma.png"
+        "收入平均數最高100": "https://i.imgur.com/lyBE7eC.png",
+        "收入平均數最低100": "https://i.imgur.com/3Efqer4.png",
+        "年齡80歲以上比例最高100": "https://i.imgur.com/rFXLkyW.png",
+        "年齡80歲以上比例最低100": "https://i.imgur.com/KQ1DBIE.png"
     }
 }

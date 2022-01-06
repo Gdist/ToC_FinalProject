@@ -78,6 +78,18 @@ def create_machine():
             },
             {
                 "trigger": "advance",
+                "source": "selectItem",
+                "dest": "selectNum",
+                "conditions": "is_going_to_selectNum",
+            },
+            {
+                "trigger": "advance",
+                "source": "selectNum",
+                "dest": "selectNum",
+                "conditions": "is_going_to_selectNum",
+            },
+            {
+                "trigger": "advance",
                 "source": "menu",
                 "dest": "funcIntro",
                 "conditions": "is_going_to_funcIntro",
@@ -85,7 +97,7 @@ def create_machine():
             {
                 "trigger": "advance",
                 "source": ["voteStats", "visualData", "multiAnalysis",
-                    "voteStatsRegion", "visualDataRegion", "selectItem", "funcIntro"],
+                    "voteStatsRegion", "visualDataRegion", "selectItem", "selectNum", "funcIntro"],
                 "dest": "menu",
                 "conditions": "is_go_back_to_menu",
             },

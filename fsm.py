@@ -14,6 +14,8 @@ if 'map' not in uploadURL.keys():
 if 'anyly' not in uploadURL.keys():
 	uploadURL['anyly'] = {}
 
+global selItem
+
 class TocMachine(GraphMachine):
 	def __init__(self, **machine_configs):
 		self.machine = GraphMachine(model=self, **machine_configs)
@@ -74,6 +76,12 @@ class TocMachine(GraphMachine):
 					return True
 		return False
 
+	def is_going_to_selectNum(self, event):
+		text = event.message.text
+		try:
+			return int(text)
+		except:
+			return False
 	def is_going_to_funcIntro(self, event):
 		return event.message.text == "功能說明"
 
@@ -182,20 +190,26 @@ class TocMachine(GraphMachine):
 		send_flex_message(event.reply_token, "選擇分析項目", template.itemMenu)
 
 	def on_enter_selectItem(self, event):
+		reply_token = event.reply_token
+		selItem = event.message.text.split("-")
+		send_text_message(reply_token, f"您選擇的分析項目是{selItem[0]} {selItem[1]}，請輸入想分析的數量")
+
+	def on_enter_selectNum(self, event):
 		print("I'm entering selectItem")
 		reply_token = event.reply_token
 		text = event.message.text
+		numData = int(text)
 
-		item, byData = text.split("-")
+		item, byData = selItem
 		message = copy.deepcopy(template.carousel)
 		for order in ["最高", "最低"]:
-			localpath = f'./output/anyly/{item}{byData}{order}100.png'
-			key = f"{item}{byData}{order}100"
+			localpath = f'./output/anyly/{item}{byData}{order}{numData}.png'
+			key = f"{item}{byData}{order}{numData}"
 			if not key in uploadURL['anyly'].keys():
 				if not os.path.exists(localpath):
 					print(f"Generating {localpath}")
 					ascending = False if order == "最高" else True
-					vote.main(item=item, byData=byData, numData=100, ascending=ascending)
+					vote.main(item=item, byData=byData, numData=numData, ascending=ascending)
 				uploadURL['anyly'][key] = uploadIMGUR2(localpath)
 				saveJson(uploadURL, filepath='./output/upload.json')
 			imgLink = uploadURL['anyly'][key]

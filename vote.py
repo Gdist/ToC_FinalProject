@@ -12,7 +12,7 @@ if not os.path.isdir('./data'):
 if not os.path.isdir('./output'):
 	os.mkdir('./output')
 if not os.path.isdir('./output/anyly'):
-	os.mkdir('./output')
+	os.mkdir('./output/anyly')
 def getStats(themeId=17, saveJSON=False, saveCSV=True):
 	data = {}
 	themes = {
@@ -70,7 +70,8 @@ def readDataFromJson(saveJSON=True, saveCSV=False):
 	return data
 
 def plot(count, title, saveName):
-	plt.rcParams['font.sans-serif'] = ['Microsoft JhengHei'] 
+	#plt.rcParams['font.sans-serif'] = ['Microsoft JhengHei'] 
+	plt.rcParams['font.sans-serif'] = ['Noto Sans TC'] 
 	plt.rcParams['axes.unicode_minus'] = False
 
 	data = {
