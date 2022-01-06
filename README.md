@@ -141,6 +141,11 @@ pipenv run python3 app.py
 	- `selectNum`: 根據輸入項目、數量，顯示投票結果與對應資料的複合分析，允許再次輸入分析數量、`重新選擇分析項目`回到`multiAnalysis`、或點擊`返回目錄`回到`menu`
 - `funcIntro` : 功能介紹，點擊返回回到`menu`
 
+### QRCode
+
+Line ID : @888qoqdr
+![@888qoqdr](https://qr-official.line.me/sid/L/888qoqdr.png)
+
 ### ScreenShots
 
 - 查詢投票數據
